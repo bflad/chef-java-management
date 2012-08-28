@@ -27,7 +27,7 @@ begin
     node['java-management']['snmp']['traps'] = configuration_data_bag[node.chef_environment]['snmp']['traps']
   end
 rescue Exception => e
-  Chef::Log.warn(e)
+  #Chef::Log.warn(e)
 end
 
 template "#{node['java']['java_home']}/jre/lib/management/jmxremote.access" do
