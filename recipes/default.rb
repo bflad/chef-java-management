@@ -18,3 +18,10 @@
 #
 
 configuration_data_bag = Chef::EncryptedDataBagItem.load("java","management")
+
+template "#{node['java']['java_home']}/jre/lib/management/management.properties" do
+  source "management.properties.erb"
+  owner  "nobody"
+  group  "bin"
+  mode   "0644"
+end
