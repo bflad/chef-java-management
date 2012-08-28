@@ -22,7 +22,7 @@ default['java-management']['enableThreadContentionMonitoring'] = false
 # JMX
 # Set port attribute and define ACL/SSL
 default['java-management']['jmxremote']['access_file'] = ""
-default['java-management']['jmxremote']['authenticate'] = false
+default['java-management']['jmxremote']['authenticate'] = true
 default['java-management']['jmxremote']['local_only'] = true
 default['java-management']['jmxremote']['login_config'] = ""
 default['java-management']['jmxremote']['password_file'] = ""
@@ -40,4 +40,4 @@ default['java-management']['snmp']['acl'] = true
 default['java-management']['snmp']['acl_file'] = ""
 default['java-management']['snmp']['interface'] = "localhost"
 default['java-management']['snmp']['port'] = ""
-default['java-management']['snmp']['trap'] = "162"
+default['java-management']['snmp']['trap'] = 162
