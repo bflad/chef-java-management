@@ -1,9 +1,6 @@
 # DESCRIPTION:
 
-Cookbook for Java Management (JMX, SNMP, etc.)
-
-_NOTE: THIS COOKBOOK IS CURRENTLY UNDER HEAVY ACTIVE DEVELOPMENT_
-_AND NOT RECOMMENDED FOR EVEN BETA TESTING YET._
+Cookbook for Java Management and Monitoring (JMX, SNMP, etc.)
 
 # REQUIREMENTS:
 
@@ -15,20 +12,64 @@ Opscode Cookbooks (http://github.com/opscode-cookbooks/)
 
 # USAGE:
 
-Create a java/management encrypted data bag with the following information per
-Chef environment:
-* TBD
+Create a java/management encrypted data bag with the following
+information per Chef environment:
+* ['jmxremote']['roles']: _required_ if you enable JMX
+* ['snmp']['acls']: _required_ if you enable SNMP
+* ['snmp']['traps']: _optional_
 
 Repeat for other Chef environments as necessary. Example:
 
     {
       "id": "management"
-      "development": {
-        "key": "value"
+      "production": {
+        "jmxremote": {
+          "roles": [
+            {
+              "name": "my-role",
+              "access": "readonly",
+              "password": "my-role-password"
+            }
+          ]
+        },
+        "snmp": {
+          "acls": [
+            {
+              "communities": "my-community",
+              "access": "read-only",
+              "managers": [
+                "server1",
+                "10.0.0.0/21"
+              ]
+            }
+          ]
+        }
       }
     }
 
-Add recipe[java-management] to your run_list and get on your merry way.
+Set default_attribute for ports to enable JMX/SNMP. Add other attributes
+as necessary. Basic example with remote JMX/SNMP enabled and JMX SSL disabled:
+
+    "java-management" => {
+      "jmxremote" => {
+        "local_only" => false,
+        "port" => "10061",
+        "ssl" => false
+      },
+      "snmp" => {
+        "interface" => "0.0.0.0",
+        "port" => "10161"
+      }
+    }
+
+Add recipe[java-management] to your run_list and configure your JAVA_OPTS to
+include _one_ of the following:
+* __recommended__ `-Dcom.sun.management.config.file`
+    * For example: `=$JAVA_HOME/jre/lib/management/management.properties`
+* `-Dcom.sun.management.jmxremote.port`
+* `-Dcom.sun.management.snmp.port`
+
+Restart your service and watch logs for JVM configuration issues.
 
 # LICENSE and AUTHOR:
       
