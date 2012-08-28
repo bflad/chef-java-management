@@ -18,6 +18,8 @@
 #
 
 default['java-management']['enableThreadContentionMonitoring'] = false
+default['java-management']['owner'] = "nobody"
+default['java-management']['group'] = "bin"
 
 # JMX
 # Set port attribute and define ACL/SSL
