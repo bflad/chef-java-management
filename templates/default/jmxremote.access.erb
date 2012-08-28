@@ -81,6 +81,7 @@
 <% if node['java-management']['jmxremote']['roles'] -%>
 <% node['java-management']['jmxremote']['roles'].each do |role| -%>
 <%= role['name'] %>   <%= role['access'] %>
+<% end -%>
 <% else -%>
 monitorRole   readonly
 controlRole   readwrite \
