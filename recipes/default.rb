@@ -18,12 +18,12 @@
 #
 
 configuration_data_bag = Chef::EncryptedDataBagItem.load("java","management")
-if configuration_data_bag[node.environment]['jmxremote']
-  node['java-management']['jmxremote']['roles'] = configuration_data_bag[node.environment]['jmxremote']['roles']
+if configuration_data_bag[node.chef_environment]['jmxremote']
+  node['java-management']['jmxremote']['roles'] = configuration_data_bag[node.chef_environment]['jmxremote']['roles']
 end
-if configuration_data_bag[node.environment]['snmp']
-  node['java-management']['snmp']['acls'] = configuration_data_bag[node.environment]['snmp']['acls']
-  node['java-management']['snmp']['traps'] = configuration_data_bag[node.environment]['snmp']['traps']
+if configuration_data_bag[node.chef_environment]['snmp']
+  node['java-management']['snmp']['acls'] = configuration_data_bag[node.chef_environment]['snmp']['acls']
+  node['java-management']['snmp']['traps'] = configuration_data_bag[node.chef_environment]['snmp']['traps']
 end
 
 template "#{node['java']['java_home']}/jre/lib/management/jmxremote.access" do
