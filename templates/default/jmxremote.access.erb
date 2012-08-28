@@ -79,7 +79,7 @@
 #   Timer and Monitor MBeans defined by the JMX API.
 
 <% if node['java-management']['jmxremote']['roles'] -%>
-<% node['java-management']['jmxremote']['roles'].each |role| -%>
+<% node['java-management']['jmxremote']['roles'].each do |role| -%>
 <%= role['name'] %>   <%= role['access'] %>
 <% else -%>
 monitorRole   readonly
