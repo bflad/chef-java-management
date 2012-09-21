@@ -1,79 +1,117 @@
 # chef-java-management [![Build Status](https://secure.travis-ci.org/bflad/chef-java-management.png?branch=master)](http://travis-ci.org/bflad/chef-java-management)
 
-# DESCRIPTION:
+## Description
 
 Cookbook for Java Management and Monitoring (JMX, SNMP, etc.)
 
-# REQUIREMENTS:
+## Requirements
 
-## Cookbooks:
+### Platforms
+
+* RedHat 6.3
+
+### Cookbooks
 
 Opscode Cookbooks (http://github.com/opscode-cookbooks/)
 
 * java
 
-# USAGE:
+## Attributes
 
-Create a java/management encrypted data bag with the following
-information per Chef environment:
-* ['jmxremote']['roles']: _required_ if you enable JMX
-* ['snmp']['acls']: _required_ if you enable SNMP
-* ['snmp']['traps']: _optional_
+* `node['java-management']['enableThreadContentionMonitoring']` - defaults to
+  false
+* `node['java-management']['owner']` - defaults to "nobody"
+* `node['java-management']['group']` - defaults to "bin"
 
-Repeat for other Chef environments as necessary. Example:
+### JMX Attributes
 
-    {
-      "id": "management"
-      "production": {
-        "jmxremote": {
-          "roles": [
-            {
-              "name": "my-role",
-              "access": "readonly",
-              "password": "my-role-password"
-            }
-          ]
-        },
-        "snmp": {
-          "acls": [
-            {
-              "communities": "my-community",
-              "access": "read-only",
-              "managers": [
-                "server1",
-                "10.0.0.0/21"
-              ]
-            }
-          ]
-        }
-      }
-    }
+* `node['java-management']['jmxremote']['access_file']` - define custom JMX
+  access file, defaults to nothing
+* `node['java-management']['jmxremote']['authenticate']` - require
+  authentication to access JMX, defaults to true
+* `node['java-management']['jmxremote']['local_only']` - for allowing the local
+  management agent to accept local and remote connection requests, defaults to
+  true
+* `node['java-management']['jmxremote']['login_config']` - define custom
+  JMX login configuration, defaults to nothing
+* `node['java-management']['jmxremote']['password_file']` - define custom JMX
+  password configuration file, defaults to nothing
+* `node['java-management']['jmxremote']['port']` - port for JMX, _required_ for
+  enabling JMX, defaults to nothing 
+* `node['java-management']['jmxremote']['ssl']` - for RMI monitoring without
+  SSL, set to false, defaults to true
+* `node['java-management']['jmxremote']['ssl_config_file']` - for supplying the
+  keystore settings in a file, defaults to nothing
+* `node['java-management']['jmxremote']['ssl_enabled_cipher_suites']` - 
+  comma-separated list of SSL/TLS cipher suites to enable, defaults to nothing
+* `node['java-management']['jmxremote']['ssl_enabled_protocols']` - 
+  comma-separated list of SSL/TLS protocol versions to enable, defaults to
+  nothing
+* `node['java-management']['jmxremote']['ssl_need_client_auth']` - SSL/TLS RMI
+  Server Socket Factory will require client authentication, defaults to false
+* `node['java-management']['jmxremote']['registry_ssl']` - for using an SSL/TLS
+  protected RMI registry, defaults to false
 
-Set default_attribute for ports to enable JMX/SNMP. Add other attributes
-as necessary. Basic example with remote JMX/SNMP enabled and JMX SSL disabled:
+### SNMP Attributes
 
-    "java-management" => {
-      "jmxremote" => {
-        "local_only" => false,
-        "port" => "10061",
-        "ssl" => false
-      },
-      "snmp" => {
-        "interface" => "0.0.0.0",
-        "port" => "10161"
-      }
-    }
+* `node['java-management']['snmp']['acl']` - require ACL for SNMP access,
+  defaults to true
+* `node['java-management']['snmp']['acl_file']` - for a custom SNMP ACL
+  file location, defaults to nothing
+* `node['java-management']['snmp']['interface']` - interface where SNMP agent
+  will bind, defaults to "localhost"
+* `node['java-management']['snmp']['port']` - port for SNMP, _required_ for
+  enabling SNMP, defaults to nothing
+* `node['java-management']['snmp']['trap']` - SNMP trap port, defaults to 162
 
-Add recipe[java-management] to your run_list and configure your JAVA_OPTS to
-include _one_ of the following:
-* __recommended__ `-Dcom.sun.management.config.file`
+## Encrypted Data Bag
+
+java/management encrypted data bag:
+
+* `['jmxremote']['roles']` - _required_ if you enable default JMX configuration
+  * `['name']` - JMX role name
+  * `['access']` - "readonly"/"readwrite"
+  * `['password']` - password for role
+* `['snmp']['acls']` - _required_ if you enable default SNMP configuration
+  * `['communities']` - array of SNMP community names
+  * `['access']` - "read-only"/"read-write"
+  * `['managers']` - array of hostnames/CIDR addresses with access
+* `['snmp']['traps']`
+  * `['trap-community']` - SNMP trap community name
+  * `['hosts']` - array of hostnames/CIDR addresses to send SNMP traps
+
+## Recipes
+
+* `recipe[java-management]` Configures Java Management
+
+## Usage
+
+### Password secured remote JMX setup without SSL
+
+* Set `['jmxremote']['roles']` with at least one role in encrypted data bag
+* Set `node['java-management']['jmxremote']['local_only']` attribute to false
+* Set `node['java-management']['jmxremote']['port']` attribute
+* Set `node['java-management']['jmxremote']['ssl']` attribute to false
+* Add `recipe[java-management]` to run_list
+* Configure JAVA_OPTS to include _one_ of the following:
+  * __recommended__ `-Dcom.sun.management.config.file`
     * For example: `=$JAVA_HOME/jre/lib/management/management.properties`
-* `-Dcom.sun.management.jmxremote.port`
-* `-Dcom.sun.management.snmp.port`
+  * `-Dcom.sun.management.jmxremote.port`
+* Restart Java service and watch for configuration errors
 
-Restart your service and watch logs for JVM configuration issues.
+### ACL secured remote SNMP 
 
-# LICENSE and AUTHOR:
+* Set `['snmp']['acls']` with at least one ACL in encrypted data bag
+* Set `node['java-management']['snmp']['interface']` attribute to "0.0.0.0"
+* Set `node['java-management']['snmp']['port']` attribute
+* Add `recipe[java-management]` to run_list
+* Configure JAVA_OPTS to include _one_ of the following:
+  * __recommended__ `-Dcom.sun.management.config.file`
+    * For example: `=$JAVA_HOME/jre/lib/management/management.properties`
+  * `-Dcom.sun.management.snmp.port`
+* Restart Java service and watch for configuration errors
+
+## License and Author
       
 Author:: Brian Flad (<bflad@wharton.upenn.edu>)
 
