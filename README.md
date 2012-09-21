@@ -1,3 +1,5 @@
+# chef-java-management [![Build Status](https://secure.travis-ci.org/bflad/chef-java-management.png?branch=master)](http://travis-ci.org/bflad/chef-java-management)
+
 # DESCRIPTION:
 
 Cookbook for Java Management and Monitoring (JMX, SNMP, etc.)
