@@ -94,8 +94,8 @@ java/management encrypted data bag:
 * Set `node['java-management']['jmxremote']['ssl']` attribute to false
 * Add `recipe[java-management]` to run_list
 * Configure JAVA_OPTS to include _one_ of the following:
-  * __recommended__ `-Dcom.sun.management.config.file`
-    * For example: `=$JAVA_HOME/jre/lib/management/management.properties`
+  * __recommended__ `-Dcom.sun.management.config.file` (example:
+  `=$JAVA_HOME/jre/lib/management/management.properties`)
   * `-Dcom.sun.management.jmxremote.port`
 * Restart Java service and watch for configuration errors
 
@@ -106,8 +106,8 @@ java/management encrypted data bag:
 * Set `node['java-management']['snmp']['port']` attribute
 * Add `recipe[java-management]` to run_list
 * Configure JAVA_OPTS to include _one_ of the following:
-  * __recommended__ `-Dcom.sun.management.config.file`
-    * For example: `=$JAVA_HOME/jre/lib/management/management.properties`
+  * __recommended__ `-Dcom.sun.management.config.file` (example:
+  `=$JAVA_HOME/jre/lib/management/management.properties`)
   * `-Dcom.sun.management.snmp.port`
 * Restart Java service and watch for configuration errors
 
