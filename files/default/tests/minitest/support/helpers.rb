@@ -1,5 +1,5 @@
 module Helpers
-  module Stash
+  module JavaManagement
     include MiniTest::Chef::Assertions
     include MiniTest::Chef::Context
     include MiniTest::Chef::Resources
