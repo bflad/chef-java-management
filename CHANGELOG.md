@@ -1,3 +1,7 @@
+## v0.1.2
+
+* Fixed minitest helpers module name
+
 ## v0.1.1
 
 * Added basic minitests
