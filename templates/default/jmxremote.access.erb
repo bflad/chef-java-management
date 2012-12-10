@@ -78,8 +78,8 @@
 # o The "controlRole" role has readwrite access and can create the standard
 #   Timer and Monitor MBeans defined by the JMX API.
 
-<% if node['java-management']['jmxremote']['roles'] -%>
-<% node['java-management']['jmxremote']['roles'].each do |role| -%>
+<% if @roles -%>
+<% @roles.each do |role| -%>
 <%= role['name'] %>   <%= role['access'] %>
 <% end -%>
 <% else -%>

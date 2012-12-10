@@ -1,3 +1,7 @@
+## v0.1.3 ##
+
+* Use template variables instead of saving node attributes
+
 ## v0.1.2
 
 * Fixed minitest helpers module name

@@ -114,9 +114,9 @@
 #   }
 # }
 
-<% if node['java-management']['snmp']['acls'] -%>
+<% if @acls -%>
 acl = {
-  <% node['java-management']['snmp']['acls'].each do |acl| -%>
+  <% @acls.each do |acl| -%>
   {
     <% if acl['communities'].kind_of?(Array) -%>
     communities = <%= acl['communities'].join(",") %>
@@ -133,9 +133,9 @@ acl = {
   <% end -%>
 }
 <% end -%>
-<% if node['java-management']['snmp']['traps'] -%>
+<% if @traps -%>
 acl = {
-  <% node['java-management']['snmp']['traps'].each do |trap| -%>
+  <% @traps.each do |trap| -%>
   {
     trap-community = <%= trap['trap-community'] %>
     <% if trap['hosts'].kind_of?(Array) -%>
