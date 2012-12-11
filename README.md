@@ -93,7 +93,7 @@ Opscode Cookbooks (http://github.com/opscode-cookbooks/)
 ### Add Trusted CA Certificates ###
 
 * `knife data bag create java`
-* `knife data bag edit java trusted_certs --secret-file=path/to/secret`
+* `knife data bag edit java certificates --secret-file=path/to/secret`
 * Add `{"ALIAS": "CA_CERTIFICATE_CONTENTS"}` entries as necessary in `trustcacerts` array
 
 ### Password secured remote JMX setup without SSL
