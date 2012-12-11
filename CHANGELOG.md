@@ -1,3 +1,7 @@
+## v0.2.0 ##
+
+* Initial trusted certificate handling
+
 ## v0.1.3 ##
 
 * Use template variables instead of saving node attributes

@@ -60,3 +60,29 @@ template "#{node['java']['java_home']}/jre/lib/management/snmp.acl" do
   mode   "0400"
   variables :acls => snmp_acls, :traps => snmp_traps
 end
+
+begin
+  certificates_data_bag = Chef::EncryptedDataBagItem.load("java","certificates")
+rescue
+  Chef::Log.info("Java certificates encrypted data bag not found.")
+end
+
+trustcacerts = certificates_data_bag['trustcacerts']
+if trustcacerts
+  trustcacerts.each_pair do |certalias,certificate|
+    file "#{node['java']['java_home']}/jre/lib/security/trustcacerts-#{certalias}.pem" do
+      action :create
+      owner "root"
+      group "root"
+      mode 0644
+      content certificate
+    end
+    
+    execute "import_trustcacerts_#{certalias}" do
+      cwd "#{node['java']['java_home']}/jre/lib/security"
+      command "#{node['java']['java_home']}/jre/bin/keytool -importcert -noprompt -trustcacerts -alias #{certalias} -file trustcacerts-#{certalias}.pem -keystore cacerts -storepass changeit"
+      action :run
+      not_if "#{node['java']['java_home']}/jre/bin/keytool -list -alias #{certalias} -keystore cacerts -storepass changeit"
+    end
+  end
+end

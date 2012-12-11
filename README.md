@@ -2,7 +2,7 @@
 
 ## Description
 
-Cookbook for Java Management and Monitoring (JMX, SNMP, etc.)
+Cookbook for Java Management and Monitoring (JMX, trusted certificates, SNMP, etc.)
 
 ## Requirements
 
@@ -64,9 +64,9 @@ Opscode Cookbooks (http://github.com/opscode-cookbooks/)
   enabling SNMP, defaults to nothing
 * `node['java-management']['snmp']['trap']` - SNMP trap port, defaults to 162
 
-## Encrypted Data Bag
+## Encrypted Data Bags
 
-java/management encrypted data bag:
+`java/management` encrypted data bag:
 
 * `['jmxremote']['roles']` - _required_ if you enable default JMX configuration
   * `['name']` - JMX role name
@@ -80,14 +80,26 @@ java/management encrypted data bag:
   * `['trap-community']` - SNMP trap community name
   * `['hosts']` - array of hostnames/CIDR addresses to send SNMP traps
 
+`java/certificates` encrypted data bag:
+* `['trustcacerts']` - array of trusted CA certificate hashes
+  * `{'ALIAS': 'CA_CERTIFICATE_CONTENTS'}` - trusted CA certificate
+
 ## Recipes
 
-* `recipe[java-management]` Configures Java Management
+* `recipe[java-management]` Configures Java JMX, trusted certificates, and SNMP
 
 ## Usage
 
+### Add Trusted CA Certificates ###
+
+* `knife data bag create java`
+* `knife data bag edit java trusted_certs --secret-file=path/to/secret`
+* Add `{"ALIAS": "CA_CERTIFICATE_CONTENTS"}` entries as necessary in `trustcacerts` array
+
 ### Password secured remote JMX setup without SSL
 
+* `knife data bag create java`
+* `knife data bag edit java management --secret-file=path/to/secret`
 * Set `['jmxremote']['roles']` with at least one role in encrypted data bag
 * Set `node['java-management']['jmxremote']['local_only']` attribute to false
 * Set `node['java-management']['jmxremote']['port']` attribute
@@ -101,6 +113,8 @@ java/management encrypted data bag:
 
 ### ACL secured remote SNMP 
 
+* `knife data bag create java`
+* `knife data bag edit java management --secret-file=path/to/secret`
 * Set `['snmp']['acls']` with at least one ACL in encrypted data bag
 * Set `node['java-management']['snmp']['interface']` attribute to "0.0.0.0"
 * Set `node['java-management']['snmp']['port']` attribute
