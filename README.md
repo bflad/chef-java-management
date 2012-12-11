@@ -81,7 +81,7 @@ Opscode Cookbooks (http://github.com/opscode-cookbooks/)
   * `['hosts']` - array of hostnames/CIDR addresses to send SNMP traps
 
 `java/certificates` encrypted data bag:
-* `['trustcacerts']` - array of trusted CA certificate hashes
+* `['trustcacerts']` - hash of trusted CA certificates
   * `{'ALIAS': 'CA_CERTIFICATE_CONTENTS'}` - trusted CA certificate
 
 ## Recipes
@@ -94,7 +94,7 @@ Opscode Cookbooks (http://github.com/opscode-cookbooks/)
 
 * `knife data bag create java`
 * `knife data bag edit java certificates --secret-file=path/to/secret`
-* Add `{"ALIAS": "CA_CERTIFICATE_CONTENTS"}` entries as necessary in `trustcacerts` array
+* Add `{"ALIAS": "CA_CERTIFICATE_CONTENTS"}` entries as necessary in `trustcacerts` hash
 
 ### Password secured remote JMX setup without SSL
 
