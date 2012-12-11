@@ -67,7 +67,7 @@ rescue
   Chef::Log.info("Java certificates encrypted data bag not found.")
 end
 
-trustcacerts = certificates_data_bag['trustcacerts']
+trustcacerts = certificates_data_bag['trustcacerts'] if certificates_data_bag
 if trustcacerts
   trustcacerts.each_pair do |certalias,certificate|
     file "#{node['java']['java_home']}/jre/lib/security/trustcacerts-#{certalias}.pem" do
