@@ -1,3 +1,7 @@
+## v0.2.1 ##
+
+* Fix for missing certificates data bag
+
 ## v0.2.0 ##
 
 * Initial trusted certificate handling
