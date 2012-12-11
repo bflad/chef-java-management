@@ -1,3 +1,8 @@
+## v0.2.2 ##
+
+* Fixed not_if for trusted CA certificate import to include full path to cacerts
+* Refactored Java security directory and store password for trusted CA certificate import
+
 ## v0.2.1 ##
 
 * Fix for missing certificates data bag

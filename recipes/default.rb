@@ -69,8 +69,10 @@ end
 
 trustcacerts = certificates_data_bag['trustcacerts'] if certificates_data_bag
 if trustcacerts
+  security_dir = "#{node['java']['java_home']}/jre/lib/security"
+  storepass = "changeit"
   trustcacerts.each_pair do |certalias,certificate|
-    file "#{node['java']['java_home']}/jre/lib/security/trustcacerts-#{certalias}.pem" do
+    file "#{security_dir}/trustcacerts-#{certalias}.pem" do
       action :create
       owner "root"
       group "root"
@@ -79,10 +81,10 @@ if trustcacerts
     end
     
     execute "import_trustcacerts_#{certalias}" do
-      cwd "#{node['java']['java_home']}/jre/lib/security"
-      command "#{node['java']['java_home']}/jre/bin/keytool -importcert -noprompt -trustcacerts -alias #{certalias} -file trustcacerts-#{certalias}.pem -keystore cacerts -storepass changeit"
+      command "#{node['java']['java_home']}/jre/bin/keytool -importcert -noprompt -trustcacerts -alias #{certalias} -file trustcacerts-#{certalias}.pem -keystore #{security_dir}/cacerts -storepass #{storepass}"
       action :run
-      not_if "#{node['java']['java_home']}/jre/bin/keytool -list -alias #{certalias} -keystore cacerts -storepass changeit"
+      only_if { File.exists?("#{security_dir}/trustcacerts-#{certalias}.pem") }
+      not_if "#{node['java']['java_home']}/jre/bin/keytool -list -alias #{certalias} -keystore #{security_dir}/cacerts -storepass #{storepass}"
     end
   end
 end
