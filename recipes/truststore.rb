@@ -36,9 +36,13 @@ truststore_data_bag.each do |certalias|
     content certificate
   end
     
-  JavaTruststore.import_certificate(certalias,certificate_file)
+  java_management_truststore_certificate certalias do
+    file certificate_file
+  end
 end
 
 node['java-management']['truststore']['certificate_files'].each_pair do |certalias,certificate_file|
-  JavaTruststore.import_certificate(certalias,certificate_file)
+  java_management_truststore_certificate certalias do
+    file certificate_file
+  end
 end
