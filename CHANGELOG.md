@@ -1,3 +1,7 @@
+## v0.3.1 ##
+
+* Fix to use Ruby File.exists? again in truststore_certificate LWRP
+
 ## v0.3.0 ##
 
 * Refactored management into its own recipe

@@ -21,7 +21,7 @@ action :import do
   execute "import_trustcacert_#{new_resource.alias}" do
     command "#{node['java-management']['keytool']} -importcert -noprompt -trustcacerts -alias #{new_resource.alias} -file #{new_resource.file} -keystore #{node['java-management']['truststore']['file']} -storepass #{node['java-management']['truststore']['storepass']}"
     action :run
-    only_if "test -f #{new_resource.file}"
+    only_if { ::File.exists?(new_resource.file) }
     not_if "#{node['java-management']['keytool']} -list -alias #{new_resource.alias} -keystore #{node['java-management']['truststore']['file']} -storepass #{node['java-management']['truststore']['storepass']}"
   end
   new_resource.updated_by_last_action(true)
