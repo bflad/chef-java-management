@@ -100,6 +100,10 @@ Opscode Cookbooks (http://github.com/opscode-cookbooks/)
 * `recipe[java-management::management]` Configures Java JMX and SNMP
 * `recipe[java-management::truststore]` Configures Java truststore
 
+## LWRPs
+
+* `java_management_truststore_certificate` - Import trusted certificate into Java truststore
+
 ## Usage
 
 ### Add Trusted Certificates ###
@@ -113,6 +117,12 @@ If you'd like to use a data bag item:
 * `knife data bag create java_truststore`
 * `knife data bag create java_truststore my_cert`
 * Create attribute `certificate` with certificate contents and save
+
+If you'd like to use a LWRP:
+
+    java_management_truststore_certificate "alias" do
+      file "/path/to/certificate"
+    end
 
 ### Password secured remote JMX setup without SSL
 
