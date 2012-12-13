@@ -18,14 +18,14 @@
 #
 
 begin
-  truststore_data_bag = data_bag(node['java-management']['truststore_data_bag'])
+  truststore_data_bag = data_bag(node['java-management']['truststore']['data_bag'])
 rescue
   Chef::Log.info("Java truststore data bag not found.")
 end
 
 truststore_data_bag ||= []
 truststore_data_bag.each do |certalias|
-  certificate = data_bag_item(node['java-management']['truststore_data_bag'],certalias)['certificate']
+  certificate = data_bag_item(node['java-management']['truststore']['data_bag'],certalias)['certificate']
   certificate_file = "#{node['java-management']['security_dir']}/truststore-#{certalias}.pem"
 
   file certificate_file do
@@ -36,9 +36,9 @@ truststore_data_bag.each do |certalias|
     content certificate
   end
     
-  JavaTruststore.import_trustcacert(certalias,certificate_file)
+  JavaTruststore.import_certificate(certalias,certificate_file)
 end
 
-node['java-management']['truststore_files'].each_pair do |certalias,certificate_file|
-  JavaTruststore.import_trustcacert(certalias,certificate_file)
+node['java-management']['truststore']['certificate_files'].each_pair do |certalias,certificate_file|
+  JavaTruststore.import_certificate(certalias,certificate_file)
 end

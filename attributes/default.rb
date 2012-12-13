@@ -23,10 +23,6 @@ default['java-management']['keytool'] = "#{java['java_home']}/jre/bin/keytool"
 default['java-management']['management_dir'] = "#{java['java_home']}/jre/lib/management"
 default['java-management']['owner'] = "nobody"
 default['java-management']['security_dir'] = "#{java['java_home']}/jre/lib/security"
-default['java-management']['storepass'] = "changeit"
-default['java-management']['truststore'] = "#{node['java-management']['security_dir']}/cacerts"
-default['java-management']['truststore_data_bag'] = "java_truststore"
-default['java-management']['truststore_files'] = []
 
 # JMX
 # Set port attribute and define ACL/SSL
@@ -50,3 +46,9 @@ default['java-management']['snmp']['acl_file'] = ""
 default['java-management']['snmp']['interface'] = "localhost"
 default['java-management']['snmp']['port'] = ""
 default['java-management']['snmp']['trap'] = 162
+
+# Truststore
+default['java-management']['truststore']['certificate_files'] = []
+default['java-management']['truststore']['data_bag'] = "java_truststore"
+default['java-management']['truststore']['file'] = "#{node['java-management']['security_dir']}/cacerts"
+default['java-management']['truststore']['storepass'] = "changeit"

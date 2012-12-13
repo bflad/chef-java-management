@@ -18,12 +18,12 @@
 #
 
 class Chef::Recipe::JavaTruststore
-  def self.import_trustcacert(certalias,certificate_file)
+  def self.import_certificate(certalias,certificate_file)
     execute "import_trustcacert_#{certalias}" do
-      command "#{node['java-management']['keytool']} -importcert -noprompt -trustcacerts -alias #{certalias} -file #{certificate_file} -keystore #{node['java-management']['truststore']} -storepass #{node['java-management']['storepass']}"
+      command "#{node['java-management']['keytool']} -importcert -noprompt -trustcacerts -alias #{certalias} -file #{certificate_file} -keystore #{node['java-management']['truststore']['file']} -storepass #{node['java-management']['truststore']['storepass']}"
       action :run
       only_if { File.exists?(certificate_file) }
-      not_if "#{node['java-management']['keytool']} -list -alias #{certalias} -keystore #{node['java-management']['truststore']} -storepass #{node['java-management']['storepass']}"
+      not_if "#{node['java-management']['keytool']} -list -alias #{certalias} -keystore #{node['java-management']['truststore']['file']} -storepass #{node['java-management']['truststore']['storepass']}"
     end
   end
 end

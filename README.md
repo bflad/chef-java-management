@@ -25,10 +25,6 @@ Opscode Cookbooks (http://github.com/opscode-cookbooks/)
 * `node['java-management']['management_dir']` - location to Java management files, defaults to "$JAVA_HOME/jre/lib/management"
 * `node['java-management']['owner']` - defaults to "nobody"
 * `node['java-management']['security_dir']` - location to Java security files, defaults to "$JAVA_HOME/jre/lib/security"
-* `node['java-management']['storepass']` - Java truststore password, defaults to "changeit"
-* `node['java-management']['truststore']` - location to Java truststore, defaults to "changeit"
-* `node['java-management']['truststore_files']` - array of `{certalias => certificate_file}` hashes for adding trusted certificates already existing on the filesystem, defaults to []
-* `node['java-management']['truststore_data_bag']` - name of optional data bag with certifcates to be trusted, defaults to "java_truststore"
 
 ### JMX Attributes
 
@@ -71,6 +67,13 @@ Opscode Cookbooks (http://github.com/opscode-cookbooks/)
   enabling SNMP, defaults to nothing
 * `node['java-management']['snmp']['trap']` - SNMP trap port, defaults to 162
 
+### Truststore Attributes
+
+* `node['java-management']['truststore']['certificate_files']` - array of `{certalias => certificate_file}` hashes for adding trusted certificates already existing on the filesystem, defaults to []
+* `node['java-management']['truststore']['data_bag']` - name of optional data bag with certifcates to be trusted, defaults to "java_truststore"
+* `node['java-management']['truststore']['file']` - location to Java truststore, defaults to "$JAVA_HOME/jre/lib/security/cacerts"
+* `node['java-management']['truststore']['storepass']` - Java truststore password, defaults to "changeit"
+
 ## Data Bags
 
 `java/management` encrypted data bag:
@@ -102,7 +105,7 @@ Opscode Cookbooks (http://github.com/opscode-cookbooks/)
 
 If the certificate file is already on the file system:
 
-* Add `{certalias => certificate_file}` to `node['java-management']['truststore_files']`
+* Add `{certalias => certificate_file}` to `node['java-management']['truststore']['certificate_files']`
 
 If you'd like to use a data bag item:
 
