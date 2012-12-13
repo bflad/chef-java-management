@@ -96,7 +96,8 @@ Opscode Cookbooks (http://github.com/opscode-cookbooks/)
 
 ## Recipes
 
-* `recipe[java-management]` Configures Java JMX and SNMP
+* `recipe[java-management]` Empty recipe for LWRPs
+* `recipe[java-management::management]` Configures Java JMX and SNMP
 * `recipe[java-management::truststore]` Configures Java truststore
 
 ## Usage
@@ -121,7 +122,7 @@ If you'd like to use a data bag item:
 * Set `node['java-management']['jmxremote']['local_only']` attribute to false
 * Set `node['java-management']['jmxremote']['port']` attribute
 * Set `node['java-management']['jmxremote']['ssl']` attribute to false
-* Add `recipe[java-management]` to run_list
+* Add `recipe[java-management::management]` to run_list
 * Configure JAVA_OPTS to include _one_ of the following:
   * __recommended__ `-Dcom.sun.management.config.file` (example:
   `=$JAVA_HOME/jre/lib/management/management.properties`)
@@ -135,7 +136,7 @@ If you'd like to use a data bag item:
 * Set `['snmp']['acls']` with at least one ACL in encrypted data bag
 * Set `node['java-management']['snmp']['interface']` attribute to "0.0.0.0"
 * Set `node['java-management']['snmp']['port']` attribute
-* Add `recipe[java-management]` to run_list
+* Add `recipe[java-management::management]` to run_list
 * Configure JAVA_OPTS to include _one_ of the following:
   * __recommended__ `-Dcom.sun.management.config.file` (example:
   `=$JAVA_HOME/jre/lib/management/management.properties`)

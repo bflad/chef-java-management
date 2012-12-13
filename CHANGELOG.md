@@ -1,7 +1,9 @@
 ## v0.3.0 ##
 
+* Refactored management into its own recipe
 * Refactored truststore into its own recipe
-* Use optional unencrypted data bag for truststore
+* New truststore_certificate LWRP
+* Use optional unencrypted data bag items for truststore certificates
 
 ## v0.2.2 ##
 
