@@ -17,46 +17,4 @@
 # limitations under the License.
 #
 
-begin
-  configuration_data_bag = Chef::EncryptedDataBagItem.load("java","management")
-  if configuration_data_bag[node.chef_environment]['jmxremote']
-    jmxremote_roles = configuration_data_bag[node.chef_environment]['jmxremote']['roles']
-  end
-  if configuration_data_bag[node.chef_environment]['snmp']
-    snmp_acls = configuration_data_bag[node.chef_environment]['snmp']['acls']
-    snmp_traps = configuration_data_bag[node.chef_environment]['snmp']['traps']
-  end
-rescue Exception => e
-  #Chef::Log.warn(e)
-end
-
-template "#{node['java-management']['management_dir']}/jmxremote.access" do
-  source "jmxremote.access.erb"
-  owner  "root"
-  group  "root"
-  mode   "0644"
-  variables :roles => jmxremote_roles
-end
-
-template "#{node['java-management']['management_dir']}/jmxremote.password" do
-  source "jmxremote.password.erb"
-  owner  node['java-management']['owner']
-  group  node['java-management']['group']
-  mode   "0400"
-  variables :roles => jmxremote_roles
-end
-
-template "#{node['java-management']['management_dir']}/management.properties" do
-  source "management.properties.erb"
-  owner  "root"
-  group  "root"
-  mode   "0644"
-end
-
-template "#{node['java-management']['management_dir']}/snmp.acl" do
-  source "snmp.acl.erb"
-  owner  node['java-management']['owner']
-  group  node['java-management']['group']
-  mode   "0400"
-  variables :acls => snmp_acls, :traps => snmp_traps
-end
+# Empty default recipe for including LWRPs, etc.
