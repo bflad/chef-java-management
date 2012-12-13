@@ -30,7 +30,7 @@ rescue Exception => e
   #Chef::Log.warn(e)
 end
 
-template "#{node['java']['java_home']}/jre/lib/management/jmxremote.access" do
+template "#{node['java-management']['management_dir']}/jmxremote.access" do
   source "jmxremote.access.erb"
   owner  "root"
   group  "root"
@@ -38,7 +38,7 @@ template "#{node['java']['java_home']}/jre/lib/management/jmxremote.access" do
   variables :roles => jmxremote_roles
 end
 
-template "#{node['java']['java_home']}/jre/lib/management/jmxremote.password" do
+template "#{node['java-management']['management_dir']}/jmxremote.password" do
   source "jmxremote.password.erb"
   owner  node['java-management']['owner']
   group  node['java-management']['group']
@@ -46,45 +46,17 @@ template "#{node['java']['java_home']}/jre/lib/management/jmxremote.password" do
   variables :roles => jmxremote_roles
 end
 
-template "#{node['java']['java_home']}/jre/lib/management/management.properties" do
+template "#{node['java-management']['management_dir']}/management.properties" do
   source "management.properties.erb"
   owner  "root"
   group  "root"
   mode   "0644"
 end
 
-template "#{node['java']['java_home']}/jre/lib/management/snmp.acl" do
+template "#{node['java-management']['management_dir']}/snmp.acl" do
   source "snmp.acl.erb"
   owner  node['java-management']['owner']
   group  node['java-management']['group']
   mode   "0400"
   variables :acls => snmp_acls, :traps => snmp_traps
-end
-
-begin
-  certificates_data_bag = Chef::EncryptedDataBagItem.load("java","certificates")
-rescue
-  Chef::Log.info("Java certificates encrypted data bag not found.")
-end
-
-trustcacerts = certificates_data_bag['trustcacerts'] if certificates_data_bag
-if trustcacerts
-  security_dir = "#{node['java']['java_home']}/jre/lib/security"
-  storepass = "changeit"
-  trustcacerts.each_pair do |certalias,certificate|
-    file "#{security_dir}/trustcacerts-#{certalias}.pem" do
-      action :create
-      owner "root"
-      group "root"
-      mode 0644
-      content certificate
-    end
-    
-    execute "import_trustcacerts_#{certalias}" do
-      command "#{node['java']['java_home']}/jre/bin/keytool -importcert -noprompt -trustcacerts -alias #{certalias} -file trustcacerts-#{certalias}.pem -keystore #{security_dir}/cacerts -storepass #{storepass}"
-      action :run
-      only_if { File.exists?("#{security_dir}/trustcacerts-#{certalias}.pem") }
-      not_if "#{node['java']['java_home']}/jre/bin/keytool -list -alias #{certalias} -keystore #{security_dir}/cacerts -storepass #{storepass}"
-    end
-  end
 end

@@ -1,3 +1,8 @@
+## v0.3.0 ##
+
+* Refactored truststore into its own recipe
+* Use optional unencrypted data bag for truststore
+
 ## v0.2.2 ##
 
 * Fixed not_if for trusted CA certificate import to include full path to cacerts

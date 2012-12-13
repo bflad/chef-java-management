@@ -18,8 +18,15 @@
 #
 
 default['java-management']['enableThreadContentionMonitoring'] = false
-default['java-management']['owner'] = "nobody"
 default['java-management']['group'] = "bin"
+default['java-management']['keytool'] = "#{java['java_home']}/jre/bin/keytool"
+default['java-management']['management_dir'] = "#{java['java_home']}/jre/lib/management"
+default['java-management']['owner'] = "nobody"
+default['java-management']['security_dir'] = "#{java['java_home']}/jre/lib/security"
+default['java-management']['storepass'] = "changeit"
+default['java-management']['truststore'] = "#{node['java-management']['security_dir']}/cacerts"
+default['java-management']['truststore_data_bag'] = "java_truststore"
+default['java-management']['truststore_files'] = []
 
 # JMX
 # Set port attribute and define ACL/SSL

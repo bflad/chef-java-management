@@ -20,8 +20,15 @@ Opscode Cookbooks (http://github.com/opscode-cookbooks/)
 
 * `node['java-management']['enableThreadContentionMonitoring']` - defaults to
   false
-* `node['java-management']['owner']` - defaults to "nobody"
 * `node['java-management']['group']` - defaults to "bin"
+* `node['java-management']['keytool']` - location to keytool command, defaults to "$JAVA_HOME/jre/bin/keytool"
+* `node['java-management']['management_dir']` - location to Java management files, defaults to "$JAVA_HOME/jre/lib/management"
+* `node['java-management']['owner']` - defaults to "nobody"
+* `node['java-management']['security_dir']` - location to Java security files, defaults to "$JAVA_HOME/jre/lib/security"
+* `node['java-management']['storepass']` - Java truststore password, defaults to "changeit"
+* `node['java-management']['truststore']` - location to Java truststore, defaults to "changeit"
+* `node['java-management']['truststore_files']` - array of `{certalias => certificate_file}` hashes for adding trusted certificates already existing on the filesystem, defaults to []
+* `node['java-management']['truststore_data_bag']` - name of optional data bag with certifcates to be trusted, defaults to "java_truststore"
 
 ### JMX Attributes
 
@@ -64,7 +71,7 @@ Opscode Cookbooks (http://github.com/opscode-cookbooks/)
   enabling SNMP, defaults to nothing
 * `node['java-management']['snmp']['trap']` - SNMP trap port, defaults to 162
 
-## Encrypted Data Bags
+## Data Bags
 
 `java/management` encrypted data bag:
 
@@ -80,21 +87,28 @@ Opscode Cookbooks (http://github.com/opscode-cookbooks/)
   * `['trap-community']` - SNMP trap community name
   * `['hosts']` - array of hostnames/CIDR addresses to send SNMP traps
 
-`java/certificates` encrypted data bag:
-* `['trustcacerts']` - hash of trusted CA certificates
-  * `{'ALIAS': 'CA_CERTIFICATE_CONTENTS'}` - trusted CA certificate
+`java_truststore` data bag, with data bag items:
+  * `['id']` - Trusted certificate alias
+  * `['certificate']` - Trusted certificate contents
 
 ## Recipes
 
-* `recipe[java-management]` Configures Java JMX, trusted certificates, and SNMP
+* `recipe[java-management]` Configures Java JMX and SNMP
+* `recipe[java-management::truststore]` Configures Java truststore
 
 ## Usage
 
-### Add Trusted CA Certificates ###
+### Add Trusted Certificates ###
 
-* `knife data bag create java`
-* `knife data bag edit java certificates --secret-file=path/to/secret`
-* Add `{"ALIAS": "CA_CERTIFICATE_CONTENTS"}` entries as necessary in `trustcacerts` hash
+If the certificate file is already on the file system:
+
+* Add `{certalias => certificate_file}` to `node['java-management']['truststore_files']`
+
+If you'd like to use a data bag item:
+
+* `knife data bag create java_truststore`
+* `knife data bag create java_truststore my_cert`
+* Create attribute `certificate` with certificate contents and save
 
 ### Password secured remote JMX setup without SSL
 
