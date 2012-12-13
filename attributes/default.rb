@@ -48,7 +48,7 @@ default['java-management']['snmp']['port'] = ""
 default['java-management']['snmp']['trap'] = 162
 
 # Truststore
-default['java-management']['truststore']['certificate_files'] = []
+default['java-management']['truststore']['certificate_files'] = {}
 default['java-management']['truststore']['data_bag'] = "java_truststore"
 default['java-management']['truststore']['file'] = "#{node['java-management']['security_dir']}/cacerts"
 default['java-management']['truststore']['storepass'] = "changeit"
