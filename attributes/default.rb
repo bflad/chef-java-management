@@ -31,7 +31,7 @@ default['java-management']['jmxremote']['authenticate'] = true
 default['java-management']['jmxremote']['local_only'] = true
 default['java-management']['jmxremote']['login_config'] = ""
 default['java-management']['jmxremote']['password_file'] = ""
-default['java-management']['jmxremote']['port'] = ""
+default['java-management']['jmxremote']['port'] = nil
 default['java-management']['jmxremote']['ssl'] = true
 default['java-management']['jmxremote']['ssl_config_file'] = ""
 default['java-management']['jmxremote']['ssl_enabled_cipher_suites'] = ""
@@ -44,7 +44,7 @@ default['java-management']['jmxremote']['registry_ssl'] = false
 default['java-management']['snmp']['acl'] = true
 default['java-management']['snmp']['acl_file'] = ""
 default['java-management']['snmp']['interface'] = "localhost"
-default['java-management']['snmp']['port'] = ""
+default['java-management']['snmp']['port'] = nil
 default['java-management']['snmp']['trap'] = 162
 
 # Truststore

@@ -33,10 +33,10 @@
 #
 # For setting the SNMP agent port use the following line
 # com.sun.management.snmp.port=<port-number>
-<% unless node['java-management']['jmxremote']['port'].empty? -%>
+<% if node['java-management']['jmxremote']['port'] -%>
 com.sun.management.jmxremote.port=<%= node['java-management']['jmxremote']['port'] %>
 <% end -%>
-<% unless node['java-management']['snmp']['port'].empty? -%>
+<% if node['java-management']['snmp']['port'] -%>
 com.sun.management.snmp.port=<%= node['java-management']['snmp']['port'] %>
 <% end -%>
 

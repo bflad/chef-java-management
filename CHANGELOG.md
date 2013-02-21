@@ -1,3 +1,7 @@
+## v0.3.2
+
+* Set JMX/SNMP default port attributes to nil instead of ""
+
 ## v0.3.1 ##
 
 * Fix to use Ruby File.exists? again in truststore_certificate LWRP
