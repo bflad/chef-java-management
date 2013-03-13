@@ -1,3 +1,7 @@
+## v1.0.1
+
+* Move truststore_certificate default attribute logic to provider since its not available during compilation phase
+
 ## v1.0.0
 
 * truststore_certificate LWRP per-resource attributes instead of cookbook specific node attributes

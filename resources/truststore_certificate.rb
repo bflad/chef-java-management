@@ -21,9 +21,9 @@ actions :import
 
 attribute :alias, :kind_of => String, :name_attribute => true
 attribute :file, :kind_of => String, :required => true
-attribute :keystore, :kind_of => String, :default => "#{node['java']['java_home']}/jre/lib/security/cacerts"
-attribute :keytool, :kind_of => String, :default => "#{node['java']['java_home']}/jre/bin/keytool"
-attribute :storepass, :kind_of => String, :default => node['java-management']['truststore']['storepass']
+attribute :keystore, :kind_of => String, :default => nil
+attribute :keytool, :kind_of => String, :default => nil
+attribute :storepass, :kind_of => String, :default => nil
 
 def initialize(*args)
   super
