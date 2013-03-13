@@ -2,7 +2,7 @@
 # Cookbook Name:: java-management
 # Recipe:: management
 #
-# Copyright 2012
+# Copyright 2012-2013
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ rescue Exception => e
   #Chef::Log.warn(e)
 end
 
-template "#{node['java-management']['management_dir']}/jmxremote.access" do
+template "#{node['java']['java_home']}/jre/lib/management/jmxremote.access" do
   source "jmxremote.access.erb"
   owner  "root"
   group  "root"
@@ -38,7 +38,7 @@ template "#{node['java-management']['management_dir']}/jmxremote.access" do
   variables :roles => jmxremote_roles
 end
 
-template "#{node['java-management']['management_dir']}/jmxremote.password" do
+template "#{node['java']['java_home']}/jre/lib/management/jmxremote.password" do
   source "jmxremote.password.erb"
   owner  node['java-management']['owner']
   group  node['java-management']['group']
@@ -46,14 +46,14 @@ template "#{node['java-management']['management_dir']}/jmxremote.password" do
   variables :roles => jmxremote_roles
 end
 
-template "#{node['java-management']['management_dir']}/management.properties" do
+template "#{node['java']['java_home']}/jre/lib/management/management.properties" do
   source "management.properties.erb"
   owner  "root"
   group  "root"
   mode   "0644"
 end
 
-template "#{node['java-management']['management_dir']}/snmp.acl" do
+template "#{node['java']['java_home']}/jre/lib/management/snmp.acl" do
   source "snmp.acl.erb"
   owner  node['java-management']['owner']
   group  node['java-management']['group']

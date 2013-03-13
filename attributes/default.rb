@@ -2,7 +2,7 @@
 # Cookbook Name:: java-management
 # Attributes:: java-management
 #
-# Copyright 2012
+# Copyright 2012-2013
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,10 +19,7 @@
 
 default['java-management']['enableThreadContentionMonitoring'] = false
 default['java-management']['group'] = "bin"
-default['java-management']['keytool'] = "#{java['java_home']}/jre/bin/keytool"
-default['java-management']['management_dir'] = "#{java['java_home']}/jre/lib/management"
 default['java-management']['owner'] = "nobody"
-default['java-management']['security_dir'] = "#{java['java_home']}/jre/lib/security"
 
 # JMX
 # Set port attribute and define ACL/SSL
@@ -50,5 +47,4 @@ default['java-management']['snmp']['trap'] = 162
 # Truststore
 default['java-management']['truststore']['certificate_files'] = {}
 default['java-management']['truststore']['data_bag'] = "java_truststore"
-default['java-management']['truststore']['file'] = "#{node['java-management']['security_dir']}/cacerts"
 default['java-management']['truststore']['storepass'] = "changeit"

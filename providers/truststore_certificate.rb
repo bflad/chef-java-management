@@ -2,7 +2,7 @@
 # Cookbook Name:: java-management
 # Provider:: truststore_certificate
 #
-# Copyright 2012
+# Copyright 2012-2013
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,10 +19,10 @@
 
 action :import do
   execute "import_trustcacert_#{new_resource.alias}" do
-    command "#{node['java-management']['keytool']} -importcert -noprompt -trustcacerts -alias #{new_resource.alias} -file #{new_resource.file} -keystore #{node['java-management']['truststore']['file']} -storepass #{node['java-management']['truststore']['storepass']}"
+    command "#{new_resource.keytool} -importcert -noprompt -trustcacerts -alias #{new_resource.alias} -file #{new_resource.file} -keystore #{new_resource.keystore} -storepass #{new_resource.storepass}"
     action :run
     only_if { ::File.exists?(new_resource.file) }
-    not_if "#{node['java-management']['keytool']} -list -alias #{new_resource.alias} -keystore #{node['java-management']['truststore']['file']} -storepass #{node['java-management']['truststore']['storepass']}"
+    not_if "#{new_resource.keytool} -list -alias #{new_resource.alias} -keystore #{new_resource.keystore} -storepass #{new_resource.storepass}"
   end
   new_resource.updated_by_last_action(true)
 end

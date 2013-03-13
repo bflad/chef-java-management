@@ -8,91 +8,90 @@ Cookbook for Java Management and Monitoring (JMX, trusted certificates, SNMP, et
 
 ### Platforms
 
-* RedHat 6.3
+* CentOS 6
+* RedHat 6
 
 ### Cookbooks
 
-Opscode Cookbooks (http://github.com/opscode-cookbooks/)
+Required [Opscode Cookbooks](https://github.com/opscode-cookbooks/)
 
-* java
+* [java](https://github.com/opscode-cookbooks/java/)
 
 ## Attributes
 
-* `node['java-management']['enableThreadContentionMonitoring']` - defaults to
-  false
-* `node['java-management']['group']` - defaults to "bin"
-* `node['java-management']['keytool']` - location to keytool command, defaults to "$JAVA_HOME/jre/bin/keytool"
-* `node['java-management']['management_dir']` - location to Java management files, defaults to "$JAVA_HOME/jre/lib/management"
-* `node['java-management']['owner']` - defaults to "nobody"
-* `node['java-management']['security_dir']` - location to Java security files, defaults to "$JAVA_HOME/jre/lib/security"
+These attributes are under the `node['java-management']` namespace.
+
+Attribute | Description | Type | Default
+----------|-------------|------|--------
+enableThreadContentionMonitoring | Enables thread contention monitoring | Boolean | false
+group | Group for file permissions | String | bin
+owner | Owner for file permissions | String | nobody
 
 ### JMX Attributes
 
-* `node['java-management']['jmxremote']['access_file']` - define custom JMX
-  access file, defaults to nothing
-* `node['java-management']['jmxremote']['authenticate']` - require
-  authentication to access JMX, defaults to true
-* `node['java-management']['jmxremote']['local_only']` - for allowing the local
-  management agent to accept local and remote connection requests, defaults to
-  true
-* `node['java-management']['jmxremote']['login_config']` - define custom
-  JMX login configuration, defaults to nothing
-* `node['java-management']['jmxremote']['password_file']` - define custom JMX
-  password configuration file, defaults to nothing
-* `node['java-management']['jmxremote']['port']` - port for JMX, _required_ for
-  enabling JMX, defaults to nothing 
-* `node['java-management']['jmxremote']['ssl']` - for RMI monitoring without
-  SSL, set to false, defaults to true
-* `node['java-management']['jmxremote']['ssl_config_file']` - for supplying the
-  keystore settings in a file, defaults to nothing
-* `node['java-management']['jmxremote']['ssl_enabled_cipher_suites']` - 
-  comma-separated list of SSL/TLS cipher suites to enable, defaults to nothing
-* `node['java-management']['jmxremote']['ssl_enabled_protocols']` - 
-  comma-separated list of SSL/TLS protocol versions to enable, defaults to
-  nothing
-* `node['java-management']['jmxremote']['ssl_need_client_auth']` - SSL/TLS RMI
-  Server Socket Factory will require client authentication, defaults to false
-* `node['java-management']['jmxremote']['registry_ssl']` - for using an SSL/TLS
-  protected RMI registry, defaults to false
+These attributes are under the `node['java-management']['jmxremote']` namespace.
+
+Attribute | Description | Type | Default
+----------|-------------|------|--------
+access_file | Custom JMX access file location | String | nil
+authenticate | Require authentication to access JMX | Boolean | true
+local_only | Allow local management agent to accept only local connection requests | Boolean | true
+login_config | Custom JMX login configuration | String | nil
+password_file | Custom JMX password configuration file location | String | nil
+port | Port for JMX, _required_ for enabling JMX | Fixnum | nil
+ssl | RMI monitoring SSL | Boolean | true
+ssl_config_file | RMI monitoring SSL configuration file location | String | nil
+ssl_enabled_cipher_suites | Comma-separated list of SSL/TLS cipher suites to enable | String | nil
+ssl_enabled_protocols | Comma-separated list of SSL/TLS protocol versions to enable | String | nil
+ssl_need_client_auth| Require client authentication for SSL/TLS RMI Server Socket Factory | Boolean | false
+registry_ssl | SSL/TLS protected RMI registry | Boolean | false
 
 ### SNMP Attributes
 
-* `node['java-management']['snmp']['acl']` - require ACL for SNMP access,
-  defaults to true
-* `node['java-management']['snmp']['acl_file']` - for a custom SNMP ACL
-  file location, defaults to nothing
-* `node['java-management']['snmp']['interface']` - interface where SNMP agent
-  will bind, defaults to "localhost"
-* `node['java-management']['snmp']['port']` - port for SNMP, _required_ for
-  enabling SNMP, defaults to nothing
-* `node['java-management']['snmp']['trap']` - SNMP trap port, defaults to 162
+These attributes are under the `node['java-management']['snmp']` namespace.
+
+Attribute | Description | Type | Default
+----------|-------------|------|--------
+acl | Require ACL for SNMP access | Boolean | true
+acl_file | Custom SNMP ACL file location | String | nil
+interface | Interface where SNMP agent will bind | String | "localhost"
+port | Port for SNMP, _required_ for enabling SNMP | Fixnum | nil
+trap | Port for SNMP traps | Fixnum | 162
 
 ### Truststore Attributes
 
-* `node['java-management']['truststore']['certificate_files']` - array of `{certalias => certificate_file}` hashes for adding trusted certificates already existing on the filesystem, defaults to []
-* `node['java-management']['truststore']['data_bag']` - name of optional data bag with certifcates to be trusted, defaults to "java_truststore"
-* `node['java-management']['truststore']['file']` - location to Java truststore, defaults to "$JAVA_HOME/jre/lib/security/cacerts"
-* `node['java-management']['truststore']['storepass']` - Java truststore password, defaults to "changeit"
+These attributes are under the `node['java-management']['truststore']` namespace.
+
+Attribute | Description | Type | Default
+----------|-------------|------|--------
+certificate_files | Trusted certificates files | Array of Hashes | []
+data_bag | Trusted certificate data bag name | String | "java_truststore"
+storepass | Java truststore password | String | "changeit"
 
 ## Data Bags
 
+### JMX/SNMP Management Encrypted Data Bag
+
 `java/management` encrypted data bag:
 
-* `['jmxremote']['roles']` - _required_ if you enable default JMX configuration
+* `['roles']` - _required_ if you enable default JMX configuration
   * `['name']` - JMX role name
   * `['access']` - "readonly"/"readwrite"
   * `['password']` - password for role
-* `['snmp']['acls']` - _required_ if you enable default SNMP configuration
+* `['acls']` - _required_ if you enable default SNMP configuration
   * `['communities']` - array of SNMP community names
   * `['access']` - "read-only"/"read-write"
   * `['managers']` - array of hostnames/CIDR addresses with access
-* `['snmp']['traps']`
+* `['traps']`
   * `['trap-community']` - SNMP trap community name
   * `['hosts']` - array of hostnames/CIDR addresses to send SNMP traps
 
-`java_truststore` data bag, with data bag items:
+### Truststore Data Bag
+
+`node['java-management']['truststore']['data_bag']` data bag (defaults to `java_truststore`), with data bag items:
   * `['id']` - Trusted certificate alias
   * `['certificate']` - Trusted certificate contents
+  * Other options as accepted by truststore_certificate LWRP
 
 ## Recipes
 
@@ -102,23 +101,41 @@ Opscode Cookbooks (http://github.com/opscode-cookbooks/)
 
 ## LWRPs
 
-* `java_management_truststore_certificate` - Import trusted certificate into Java truststore
+### java_management_truststore_certificate
+
+Import trusted certificate into Java truststore
+
+Attribute | Description | Type | Default
+----------|-------------|------|--------
+file | _required_ Certificate path | String | N/A
+keystore | Keystore path | String | `#{node['java']['java_home']}/jre/lib/security/cacerts`
+keytool | keytool path | String | `#{node['java']['java_home']}/jre/bin/keytool`
+storepass | Keystore password | String | `#{node['java-management']['truststore']['storepass']}`
+
+Example:
+
+    java_management_truststore_certificate "alias" do
+      file "/path/to/certificate"
+    end
 
 ## Usage
 
 ### Add Trusted Certificates ###
 
-If the certificate file is already on the file system:
+If the certificate files are already on the filesystem:
 
-* Add `{certalias => certificate_file}` to `node['java-management']['truststore']['certificate_files']`
+* Add `{certalias => options}` to `node['java-management']['truststore']['certificate_files']`
+  * `options` (as a String) certificate file location
+  * `options` (as a Hash)
+    * `file` _required_ certificate file location
+    * Other options accepted by truststore_certificate LWRP
 
-If you'd like to use a data bag item:
+If you'd like to use data bag items (data bag defined by `node['java-management']['truststore']['data_bag']`):
 
-* `knife data bag create java_truststore`
 * `knife data bag create java_truststore my_cert`
-* Create attribute `certificate` with certificate contents and save
+* Create _at least_ `certificate` attribute with certificate contents and save
 
-If you'd like to use a LWRP:
+If you'd like to use the LWRP directly:
 
     java_management_truststore_certificate "alias" do
       file "/path/to/certificate"
@@ -128,10 +145,10 @@ If you'd like to use a LWRP:
 
 * `knife data bag create java`
 * `knife data bag edit java management --secret-file=path/to/secret`
-* Set `['jmxremote']['roles']` with at least one role in encrypted data bag
-* Set `node['java-management']['jmxremote']['local_only']` attribute to false
-* Set `node['java-management']['jmxremote']['port']` attribute
-* Set `node['java-management']['jmxremote']['ssl']` attribute to false
+* Set `['roles']` with at least one role in encrypted data bag
+* Set `node['java-management']['local_only']` attribute to false
+* Set `node['java-management']['port']` attribute
+* Set `node['java-management']['ssl']` attribute to false
 * Add `recipe[java-management::management]` to run_list
 * Configure JAVA_OPTS to include _one_ of the following:
   * __recommended__ `-Dcom.sun.management.config.file` (example:
@@ -143,9 +160,9 @@ If you'd like to use a LWRP:
 
 * `knife data bag create java`
 * `knife data bag edit java management --secret-file=path/to/secret`
-* Set `['snmp']['acls']` with at least one ACL in encrypted data bag
-* Set `node['java-management']['snmp']['interface']` attribute to "0.0.0.0"
-* Set `node['java-management']['snmp']['port']` attribute
+* Set `['acls']` with at least one ACL in encrypted data bag
+* Set `node['java-management']['interface']` attribute to "0.0.0.0"
+* Set `node['java-management']['port']` attribute
 * Add `recipe[java-management::management]` to run_list
 * Configure JAVA_OPTS to include _one_ of the following:
   * __recommended__ `-Dcom.sun.management.config.file` (example:
@@ -153,11 +170,30 @@ If you'd like to use a LWRP:
   * `-Dcom.sun.management.snmp.port`
 * Restart Java service and watch for configuration errors
 
+## Testing and Development of this Cookbook
+
+Here's how you can quickly get testing or developing against the cookbook thanks to [Vagrant](http://vagrantup.com/) and [Berkshelf](http://berkshelf.com/).
+
+    gem install bundler --no-ri --no-rdoc
+    git clone ssh://git@github.com:bflad/chef-java-management.git
+    cd java-management
+    bundle install
+    bundle exec vagrant up BOX # BOX being centos6 or ubuntu1204
+
+You can then SSH into the running VM using the `vagrant ssh` command.
+The VM can easily be stopped and deleted with the `vagrant destroy`
+command. Please see the official [Vagrant documentation](http://vagrantup.com/v1/docs/commands.html)
+for a more in depth explanation of available commands.
+
+## Contributing
+
+Please use standard Github pull requests and if possible, in combination with testing on the Vagrant boxes.
+
 ## License and Author
-      
+
 Author:: Brian Flad (<bflad@wharton.upenn.edu>)
 
-Copyright:: 2012
+Copyright:: 2012-2013
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

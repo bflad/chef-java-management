@@ -2,7 +2,7 @@
 # Cookbook Name:: java-management
 # Resource:: truststore_certificate
 #
-# Copyright 2012
+# Copyright 2012-2013
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,6 +21,9 @@ actions :import
 
 attribute :alias, :kind_of => String, :name_attribute => true
 attribute :file, :kind_of => String, :required => true
+attribute :keystore, :kind_of => String, :default => "#{node['java']['java_home']}/jre/lib/security/cacerts"
+attribute :keytool, :kind_of => String, :default => "#{node['java']['java_home']}/jre/bin/keytool"
+attribute :storepass, :kind_of => String, :default => "#{node['java-management']['truststore']['storepass']}"
 
 def initialize(*args)
   super

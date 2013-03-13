@@ -1,3 +1,14 @@
+## v1.0.0
+
+* truststore_certificate LWRP per-resource attributes instead of cookbook specific node attributes
+* `node['java-management']['truststore']['certificate_files']` hashes and truststore data bag items can now specify keystore, keytool, and storepass options
+* Removed attributes (to avoid multiple attribute changes when changing `node['java']['java_home']`):
+  * `node['java-management']['keytool']`
+  * `node['java-management']['management_dir']`
+  * `node['java-management']['security_dir']`
+  * `node['java-management']['truststore']`
+* Sample Vagrant setup for testing
+
 ## v0.3.2
 
 * Set JMX/SNMP default port attributes to nil instead of ""
