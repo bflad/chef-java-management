@@ -19,15 +19,15 @@
 
 action :import do
   # Since we can't use attributes in resource default values
-  new_resource.keystore ||= "#{node['java']['java_home']}/jre/lib/security/cacerts"
-  new_resource.keytool ||= "#{node['java']['java_home']}/jre/bin/keytool"
-  new_resource.storepass ||= node['java-management']['truststore']['storepass']
+  keystore = new_resource.keystore || "#{node['java']['java_home']}/jre/lib/security/cacerts"
+  keytool = new_resource.keytool || "#{node['java']['java_home']}/jre/bin/keytool"
+  storepass = new_resource.storepass || node['java-management']['truststore']['storepass']
 
   execute "import_trustcacert_#{new_resource.alias}" do
-    command "#{new_resource.keytool} -importcert -noprompt -trustcacerts -alias #{new_resource.alias} -file #{new_resource.file} -keystore #{new_resource.keystore} -storepass #{new_resource.storepass}"
+    command "#{keytool} -importcert -noprompt -trustcacerts -alias #{new_resource.alias} -file #{new_resource.file} -keystore #{keystore} -storepass #{storepass}"
     action :run
     only_if { ::File.exists?(new_resource.file) }
-    not_if "#{new_resource.keytool} -list -alias #{new_resource.alias} -keystore #{new_resource.keystore} -storepass #{new_resource.storepass}"
+    not_if "#{keytool} -list -alias #{new_resource.alias} -keystore #{keystore} -storepass #{storepass}"
   end
   new_resource.updated_by_last_action(true)
 end

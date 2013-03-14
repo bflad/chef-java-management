@@ -1,3 +1,7 @@
+## v1.0.2
+
+* Fix for truststore_certificate provider attribute setting
+
 ## v1.0.1
 
 * Move truststore_certificate default attribute logic to provider since its not available during compilation phase
