@@ -17,6 +17,7 @@
 # limitations under the License.
 #
 
+# rubocop:disable RescueException
 begin
   configuration_data_bag = Chef::EncryptedDataBagItem.load('java', 'management')
   if configuration_data_bag[node.chef_environment]['jmxremote']
@@ -26,9 +27,10 @@ begin
     snmp_acls = configuration_data_bag[node.chef_environment]['snmp']['acls']
     snmp_traps = configuration_data_bag[node.chef_environment]['snmp']['traps']
   end
-rescue Exception => e
-  # Chef::Log.warn(e)
+rescue Exception
+  Chef::Log.debug('java/management encrypted databag not found')
 end
+# rubocop:enable RescueException
 
 template "#{node['java']['java_home']}/jre/lib/management/jmxremote.access" do
   source 'jmxremote.access.erb'
