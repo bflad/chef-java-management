@@ -18,7 +18,7 @@
 #
 
 begin
-  configuration_data_bag = Chef::EncryptedDataBagItem.load("java","management")
+  configuration_data_bag = Chef::EncryptedDataBagItem.load('java', 'management')
   if configuration_data_bag[node.chef_environment]['jmxremote']
     jmxremote_roles = configuration_data_bag[node.chef_environment]['jmxremote']['roles']
   end
@@ -27,36 +27,36 @@ begin
     snmp_traps = configuration_data_bag[node.chef_environment]['snmp']['traps']
   end
 rescue Exception => e
-  #Chef::Log.warn(e)
+  # Chef::Log.warn(e)
 end
 
 template "#{node['java']['java_home']}/jre/lib/management/jmxremote.access" do
-  source "jmxremote.access.erb"
-  owner  "root"
-  group  "root"
-  mode   "0644"
+  source 'jmxremote.access.erb'
+  owner  'root'
+  group  'root'
+  mode   '0644'
   variables :roles => jmxremote_roles
 end
 
 template "#{node['java']['java_home']}/jre/lib/management/jmxremote.password" do
-  source "jmxremote.password.erb"
+  source 'jmxremote.password.erb'
   owner  node['java-management']['owner']
   group  node['java-management']['group']
-  mode   "0400"
+  mode   '0400'
   variables :roles => jmxremote_roles
 end
 
 template "#{node['java']['java_home']}/jre/lib/management/management.properties" do
-  source "management.properties.erb"
-  owner  "root"
-  group  "root"
-  mode   "0644"
+  source 'management.properties.erb'
+  owner  'root'
+  group  'root'
+  mode   '0644'
 end
 
 template "#{node['java']['java_home']}/jre/lib/management/snmp.acl" do
-  source "snmp.acl.erb"
+  source 'snmp.acl.erb'
   owner  node['java-management']['owner']
   group  node['java-management']['group']
-  mode   "0400"
+  mode   '0400'
   variables :acls => snmp_acls, :traps => snmp_traps
 end

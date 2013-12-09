@@ -1,9 +1,9 @@
 require File.expand_path('../support/helpers', __FILE__)
 
-describe_recipe "java-management::default" do
+describe_recipe 'java-management::default' do
   include Helpers::JavaManagement
 
-  #configuration_data_bag = Chef::EncryptedDataBagItem.load("java","management")
+  # configuration_data_bag = Chef::EncryptedDataBagItem.load("java","management")
 
   it 'creates Java JMX Access File' do
     file("#{node['java']['java_home']}/jre/lib/management/jmxremote.access").must_exist
@@ -20,5 +20,5 @@ describe_recipe "java-management::default" do
   it 'creates Java SNMP Access File' do
     file("#{node['java']['java_home']}/jre/lib/management/snmp.acl").must_exist.with(:owner, node['java-management']['owner'])
   end
-  
+
 end

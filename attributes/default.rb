@@ -18,33 +18,33 @@
 #
 
 default['java-management']['enableThreadContentionMonitoring'] = false
-default['java-management']['group'] = "bin"
-default['java-management']['owner'] = "nobody"
+default['java-management']['group'] = 'bin'
+default['java-management']['owner'] = 'nobody'
 
 # JMX
 # Set port attribute and define ACL/SSL
-default['java-management']['jmxremote']['access_file'] = ""
+default['java-management']['jmxremote']['access_file'] = ''
 default['java-management']['jmxremote']['authenticate'] = true
 default['java-management']['jmxremote']['local_only'] = true
-default['java-management']['jmxremote']['login_config'] = ""
-default['java-management']['jmxremote']['password_file'] = ""
+default['java-management']['jmxremote']['login_config'] = ''
+default['java-management']['jmxremote']['password_file'] = ''
 default['java-management']['jmxremote']['port'] = nil
 default['java-management']['jmxremote']['ssl'] = true
-default['java-management']['jmxremote']['ssl_config_file'] = ""
-default['java-management']['jmxremote']['ssl_enabled_cipher_suites'] = ""
-default['java-management']['jmxremote']['ssl_enabled_protocols'] = ""
+default['java-management']['jmxremote']['ssl_config_file'] = ''
+default['java-management']['jmxremote']['ssl_enabled_cipher_suites'] = ''
+default['java-management']['jmxremote']['ssl_enabled_protocols'] = ''
 default['java-management']['jmxremote']['ssl_need_client_auth'] = false
 default['java-management']['jmxremote']['registry_ssl'] = false
 
 # SNMP
 # Set port attribute and define ACL to enable SNMP
 default['java-management']['snmp']['acl'] = true
-default['java-management']['snmp']['acl_file'] = ""
-default['java-management']['snmp']['interface'] = "localhost"
+default['java-management']['snmp']['acl_file'] = ''
+default['java-management']['snmp']['interface'] = 'localhost'
 default['java-management']['snmp']['port'] = nil
 default['java-management']['snmp']['trap'] = 162
 
 # Truststore
 default['java-management']['truststore']['certificate_files'] = {}
-default['java-management']['truststore']['data_bag'] = "java_truststore"
-default['java-management']['truststore']['storepass'] = "changeit"
+default['java-management']['truststore']['data_bag'] = 'java_truststore'
+default['java-management']['truststore']['storepass'] = 'changeit'
