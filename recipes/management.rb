@@ -34,31 +34,31 @@ end
 
 template "#{node['java']['java_home']}/jre/lib/management/jmxremote.access" do
   source 'jmxremote.access.erb'
-  owner  'root'
-  group  'root'
-  mode   '0644'
+  owner 'root'
+  group 'root'
+  mode '0644'
   variables :roles => jmxremote_roles
 end
 
 template "#{node['java']['java_home']}/jre/lib/management/jmxremote.password" do
   source 'jmxremote.password.erb'
-  owner  node['java-management']['owner']
-  group  node['java-management']['group']
-  mode   '0400'
+  owner node['java-management']['owner']
+  group node['java-management']['group']
+  mode '0400'
   variables :roles => jmxremote_roles
 end
 
 template "#{node['java']['java_home']}/jre/lib/management/management.properties" do
   source 'management.properties.erb'
-  owner  'root'
-  group  'root'
-  mode   '0644'
+  owner 'root'
+  group 'root'
+  mode '0644'
 end
 
 template "#{node['java']['java_home']}/jre/lib/management/snmp.acl" do
   source 'snmp.acl.erb'
-  owner  node['java-management']['owner']
-  group  node['java-management']['group']
-  mode   '0400'
+  owner node['java-management']['owner']
+  group node['java-management']['group']
+  mode '0400'
   variables :acls => snmp_acls, :traps => snmp_traps
 end

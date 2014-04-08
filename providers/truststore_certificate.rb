@@ -26,7 +26,7 @@ action :import do
   execute "import_trustcacert_#{new_resource.alias}" do
     command "#{keytool} -importcert -noprompt -trustcacerts -alias #{new_resource.alias} -file #{new_resource.file} -keystore #{keystore} -storepass #{storepass}"
     action :run
-    only_if { ::File.exists?(new_resource.file) }
+    only_if { ::File.exist?(new_resource.file) }
     not_if "#{keytool} -list -alias #{new_resource.alias} -keystore #{keystore} -storepass #{storepass}"
   end
   new_resource.updated_by_last_action(true)
