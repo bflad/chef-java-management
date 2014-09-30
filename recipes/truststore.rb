@@ -48,7 +48,7 @@ end
 node['java-management']['truststore']['certificate_files'].each_pair do |certalias, options|
   java_management_truststore_certificate certalias do
     if options.is_a?(String)
-      file certificate_file
+      file options
     else
       file options['file']
       keystore options['keystore'] if options['keystore']
