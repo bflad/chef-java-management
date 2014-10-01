@@ -1,3 +1,7 @@
+## 1.0.3
+
+* [#3][]: Fix typo with String truststore certifcate_files attribute
+
 ## v1.0.2
 
 * Fix for truststore_certificate provider attribute setting
@@ -60,3 +64,5 @@
 ## v0.1.0
 
 * Initial beta release with Java SNMP and JMX management.
+
+[#3]: https://github.com/bflad/chef-java-management/issues/3
